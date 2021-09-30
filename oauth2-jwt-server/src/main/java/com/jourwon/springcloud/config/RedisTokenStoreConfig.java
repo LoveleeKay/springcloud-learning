@@ -5,7 +5,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.security.oauth2.provider.token.TokenStore;
-import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 
 /**
  * Description:使用redis存储token的配置
@@ -21,7 +20,7 @@ public class RedisTokenStoreConfig {
 
     @Bean
     public TokenStore redisTokenStore() {
-        return new RedisTokenStore(redisConnectionFactory);
+        return new org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore(redisConnectionFactory);
     }
 
 }

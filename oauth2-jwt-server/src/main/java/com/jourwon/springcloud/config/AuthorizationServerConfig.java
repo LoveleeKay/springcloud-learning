@@ -49,6 +49,10 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Autowired
     private JwtTokenEnhancer jwtTokenEnhancer;
 
+//    @Autowired
+//    @Qualifier("redisTokenStore")
+//    private TokenStore tokenStore;
+
     /**
      * 使用密码模式需要配置
      *
@@ -63,6 +67,11 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         delegates.add(jwtTokenEnhancer);
         delegates.add(jwtAccessTokenConverter);
         tokenEnhancerChain.setTokenEnhancers(delegates);
+
+//        endpoints.authenticationManager(authenticationManager)
+//                .userDetailsService(userService)
+//                // 配置令牌存储策略
+//                .tokenStore(tokenStore);
 
         endpoints.authenticationManager(authenticationManager)
                 .userDetailsService(userService)
@@ -88,7 +97,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 // 单点登录时配置
                 .redirectUris("http://localhost:9501/login")
                 // 自动授权配置
-                .autoApprove(true)
+//                .autoApprove(true)
                 // 配置申请的权限范围
                 .scopes("all")
                 // 配置grant_type,表示授权类型
@@ -98,6 +107,6 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
         // 获取密钥需要身份认证，使用单点登录时必须配置
-        security.tokenKeyAccess("isAuthenticated()");
+        security.tokenKeyAccess("isAuthenticated()").allowFormAuthenticationForClients();
     }
 }
